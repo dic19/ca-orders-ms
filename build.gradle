@@ -1,0 +1,79 @@
+plugins {
+    id "jacoco"
+    id "java"
+}
+
+subprojects {
+    apply(plugin: "java")
+    apply(plugin: "jacoco")
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation(
+            "org.mock-server:mockserver-junit-jupiter:5.11.2"
+        )
+    }
+
+    test {
+        useJUnitPlatform()
+
+        testLogging {
+            events("passed", "skipped", "failed", "standardError")
+        }
+
+        beforeSuite { testDescriptor ->
+            println("=> Running ${testDescriptor.name} ...")
+        }
+
+        afterSuite { testDescriptor, testResult ->
+            def summary = [
+                total  : testResult.testCount,
+                passed : testResult.successfulTestCount,
+                failed : testResult.failedTestCount,
+                skipped: testResult.skippedTestCount
+            ]
+
+            println()
+
+            if (testDescriptor.parent == null) {
+                println(">>> Overall test results: ${testResult.resultType} $summary <<<")
+            } else {
+                println("=> Finished ${testDescriptor.name} $summary")
+            }
+        }
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.required = true
+            xml.outputLocation = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+            html.required = true
+            html.outputLocation = file("$buildDir/reports/jacoco/test/html")
+
+        }
+    }
+}
+
+task jacocoRootReport(type: JacocoReport) {
+    dependsOn = subprojects.test
+    dependsOn = subprojects.jacocoTestReport
+    additionalSourceDirs.from(files(subprojects.sourceSets.main.allSource.srcDirs))
+    sourceDirectories.from(files(subprojects.sourceSets.main.allSource.srcDirs))
+    classDirectories.from(files(subprojects.sourceSets.main.output))
+    executionData.from(project.fileTree(dir: ".", include: "**/build/jacoco/test.exec"))
+    reports {
+        xml.required = true
+        xml.outputLocation = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
+        html.required = true
+        html.outputLocation = file("$buildDir/reports/jacoco/test/html")
+    }
+}

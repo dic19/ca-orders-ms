@@ -1,0 +1,6 @@
+
+dependencies {
+    implementation(
+        project(":ca-orders-domain")
+    )
+}
