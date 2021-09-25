@@ -1,0 +1,70 @@
+apply(plugin: "org.jetbrains.kotlin.jvm")
+apply(plugin: "org.jetbrains.kotlin.plugin.jpa")
+apply(plugin: "org.jetbrains.kotlin.plugin.spring")
+apply(plugin: "org.springframework.boot")
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    archiveClassifier.set("boot")
+    mainClass.set("com.orders.application.ApplicationKt")
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+}
+
+dependencies {
+    implementation(
+        project(":ca-orders-domain"),
+        project(":ca-orders-use-case"),
+        platform("org.springframework.boot:spring-boot-dependencies:2.5.4"),
+        "org.jetbrains.kotlin:kotlin-reflect",
+        "org.springframework.boot:spring-boot-starter-web"
+    )
+
+    implementation(
+        project(":ca-spring-dummy-adapter")
+    )
+
+    // Un-comment this block for Cassandra persistence implementation
+    // implementation(
+    //     project(":ca-spring-cassandra-adapter"),
+    //     "org.springframework.boot:spring-boot-starter-data-cassandra"
+    // )
+
+    // Un-comment this block for JPA persistence implementation
+    // implementation(
+    //     project(":ca-spring-jpa-adapter"),
+    //     "org.flywaydb:flyway-core",
+    //     "org.springframework.boot:spring-boot-starter-data-jpa"
+    // )
+    //
+    // runtimeOnly(
+    //     "com.h2database:h2",
+    //     "mysql:mysql-connector-java",
+    //     "org.postgresql:postgresql"
+    // )
+
+    // Un-comment this block for Kafka event sending implementation
+    // implementation(
+    //     project(":ca-spring-kafka-adapter"),
+    //     "org.springframework.kafka:spring-kafka"
+    // )
+
+    // Un-comment this block for MongoDB persistence implementation
+    // implementation(
+    //     project(":ca-spring-mongo-adapter"),
+    //     "org.springframework.boot:spring-boot-starter-data-mongodb"
+    // )
+
+    // Un-comment this block for Redis persistence implementation
+    // implementation(
+    //     project(":ca-spring-redis-adapter"),
+    //     "org.springframework.boot:spring-boot-starter-data-redis"
+    // )
+}
