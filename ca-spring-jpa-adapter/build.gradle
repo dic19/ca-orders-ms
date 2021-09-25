@@ -1,0 +1,23 @@
+apply(plugin: "org.jetbrains.kotlin.jvm")
+apply(plugin: "org.jetbrains.kotlin.plugin.jpa")
+apply(plugin: "org.jetbrains.kotlin.plugin.spring")
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+}
+
+dependencies {
+    implementation(
+        project(":ca-orders-domain"),
+        project(":ca-orders-use-case")
+    )
+
+    compileOnly(
+        platform("org.springframework.boot:spring-boot-dependencies:2.5.4"),
+        "jakarta.persistence:jakarta.persistence-api",
+        "org.springframework.boot:spring-boot-autoconfigure",
+        "org.springframework.data:spring-data-jpa"
+    )
+}
