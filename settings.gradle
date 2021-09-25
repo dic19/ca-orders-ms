@@ -3,5 +3,11 @@ rootProject.name = "ca-orders-ms"
 include(
     "ca-orders-domain",
     "ca-orders-use-case",
-    "ca-spring-boot-application"
+    "ca-spring-application",
+    "ca-spring-cassandra-adapter",
+    "ca-spring-dummy-adapter",
+    "ca-spring-jpa-adapter",
+    "ca-spring-kafka-adapter",
+    "ca-spring-mongo-adapter",
+    "ca-spring-redis-adapter"
 )

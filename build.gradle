@@ -1,6 +1,10 @@
 plugins {
     id "jacoco"
     id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.5.30" apply false
+    id "org.jetbrains.kotlin.plugin.jpa" version "1.5.30" apply false
+    id "org.jetbrains.kotlin.plugin.spring" version "1.5.30" apply false
+    id "org.springframework.boot" version "2.5.4" apply false
 }
 
 subprojects {
@@ -17,11 +21,7 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        testImplementation(
-            "org.mock-server:mockserver-junit-jupiter:5.11.2"
-        )
-    }
+    dependencies {}
 
     test {
         useJUnitPlatform()
@@ -58,7 +58,6 @@ subprojects {
             xml.outputLocation = file("$buildDir/reports/jacoco/test/jacocoTestReport.xml")
             html.required = true
             html.outputLocation = file("$buildDir/reports/jacoco/test/html")
-
         }
     }
 }

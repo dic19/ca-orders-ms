@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "d2e705ee-5a10-4c7f-a9d3-c047a0a81fe6",
+		"name": "ca-orders-ms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Create order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var order_id = pm.response.json().unique_id",
+							"",
+							"pm.collectionVariables.set(\"orderID\", order_id)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"country\": \"AR\",\n    \"currency\": \"ARS\",\n    \"products\": [\n        {\n            \"code\": \"abc123\",\n            \"discount\": 3000.0,\n            \"image\": \"https://compass-ssl.xbox.com/assets/2b/ba/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png?n=0202999-ReadyForAction_Console-D.png\",\n            \"name\": \"Xbox One S 1TB\",\n            \"price\": 27150.0,\n            \"quantity\": 1,\n            \"taxes\": 2850.0\n        }\n    ],\n    \"reference_id\": \"mi-orden-nro-123\",\n    \"shipping\": {\n        \"address\": {\n            \"city\": \"Concepción del Uruguay\",\n            \"country\": \"AR\",\n            \"description\": \"UTN FRCU\",\n            \"email\": \"info@mail.com.ar\",\n            \"neighborhood\": \"\",\n            \"number\": \"676\",\n            \"state\": \"Entre Ríos\",\n            \"street\": \"Ing. Carlos Pereyra\",\n            \"zip\": \"E3264BTD\"\n        },\n        \"cost\": 650.0,\n        \"method\": \"normal a domicilio\"\n    },\n    \"shipping_required\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Get order by uniqueID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders/{{orderID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders",
+						"{{orderID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Find order by referenceID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders?reference_id=mi-orden-nro-124",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders"
+					],
+					"query": [
+						{
+							"key": "reference_id",
+							"value": "mi-orden-nro-124"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. Update order",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [\n        {\n            \"code\": \"abc123\",\n            \"discount\": 3000.0,\n            \"image\": \"https://compass-ssl.xbox.com/assets/2b/ba/2bbae9c6-b091-49f2-96b3-a8f0fa65eb86.png?n=0202999-ReadyForAction_Console-D.png\",\n            \"name\": \"Xbox One S 1TB\",\n            \"price\": 27150.0,\n            \"quantity\": 2,\n            \"taxes\": 2850.0\n        }\n    ],\n    \"shipping\": {\n        \"address\": {\n            \"city\": \"Concepción del Uruguay\",\n            \"country\": \"AR\",\n            \"description\": \"UTN FRCU\",\n            \"email\": \"info@mail.com.ar\",\n            \"neighborhood\": \"\",\n            \"number\": \"676\",\n            \"state\": \"Entre Ríos\",\n            \"street\": \"Ing. Carlos Pereyra\",\n            \"zip\": \"E3264BTD\"\n        },\n        \"cost\": 650.0,\n        \"method\": \"normal a domicilio\"\n    },\n    \"shipping_required\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders/{{orderID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders",
+						"{{orderID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. Delete order",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders/d07c09ab-540f-476d-8235-cdd06daa5e30",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders",
+						"d07c09ab-540f-476d-8235-cdd06daa5e30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. Add products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [\n        {\n            \"code\": \"abc456\",\n            \"discount\": 0,\n            \"image\": \"https://compass-ssl.xbox.com/assets/04/bf/04bfa140-d614-4348-855b-2bbde75ab73c.jpg?n=Accessories-Hub_Content-Placement-0_2020-Controller-White_788x444.jpg\",\n            \"name\": \"Control inalámbrico Xbox: blanco robot\",\n            \"price\": 3168.0,\n            \"quantity\": 1,\n            \"taxes\": 332.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders/{{orderID}}/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders",
+						"{{orderID}}",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. Drop product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{user_jwt}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-API-Key",
+						"value": "{{store_api_key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"products\": [\n        {\n            \"code\": \"abc456\",\n            \"discount\": 0,\n            \"image\": \"https://compass-ssl.xbox.com/assets/04/bf/04bfa140-d614-4348-855b-2bbde75ab73c.jpg?n=Accessories-Hub_Content-Placement-0_2020-Controller-White_788x444.jpg\",\n      \"name\": \"Control inalámbrico Xbox: blanco robot\",\n            \"price\": 3168.0,\n            \"quantity\": 1,\n            \"taxes\": 332.0\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ca/orders/ms/orders/{{orderID}}/products/abc456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ca",
+						"orders",
+						"ms",
+						"orders",
+						"{{orderID}}",
+						"products",
+						"abc456"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_jwt",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+		},
+		{
+			"key": "store_api_key",
+			"value": "EddkthmlpMs415rLgsO42bmBZMcR9kIwJVd72jEm"
+		},
+		{
+			"key": "orderID",
+			"value": "bc9bbb51-9cea-4bf4-90e7-7b428946526b"
+		}
+	]
+}
