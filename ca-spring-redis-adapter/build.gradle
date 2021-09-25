@@ -1,0 +1,15 @@
+apply(plugin: "org.jetbrains.kotlin.jvm")
+apply(plugin: "org.jetbrains.kotlin.plugin.spring")
+
+dependencies {
+    implementation(
+        project(":ca-orders-domain"),
+        project(":ca-orders-use-case")
+    )
+
+    compileOnly(
+        platform("org.springframework.boot:spring-boot-dependencies:2.5.4"),
+        "org.springframework.boot:spring-boot-autoconfigure",
+        "org.springframework.data:spring-data-redis"
+    )
+}
