@@ -400,8 +400,6 @@ REDIS_PORT=6379
 
 ## ca-spring-kafka-adapter
 
-## ca-spring-redis-adapter
-
 Provee implementaciones para los ports de tipo `Sender`, con Kafka como broker de mensajes.
 
 Requisitos:
