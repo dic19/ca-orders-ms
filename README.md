@@ -421,19 +421,19 @@ Esta acción es necesaria una única vez, y consiste en crear los tres tópicos 
 CREATED, UPDATED y DELETED de las órdenes.
 
 ```bash
-$ {$KAFKA_HOME}/bin/kafka-topics.sh --create \
+$ ${KAFKA_HOME}/bin/kafka-topics.sh --create \
 --zookeeper localhost:2181 \
 --topic kafka_created_order_topic \
 --partitions 3 \
 --replication-factor 1
 
-$ {$KAFKA_HOME}/bin/kafka-topics.sh --create \
+$ ${KAFKA_HOME}/bin/kafka-topics.sh --create \
 --zookeeper localhost:2181 \
 --topic kafka_deleted_order_topic \
 --partitions 3 \
 --replication-factor 1
 
-$ {$KAFKA_HOME}/bin/kafka-topics.sh --create \
+$ ${KAFKA_HOME}/bin/kafka-topics.sh --create \
 --zookeeper localhost:2181 \
 --topic kafka_updated_order_topic \
 --partitions 3 \
